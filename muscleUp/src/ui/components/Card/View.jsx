@@ -1,9 +1,15 @@
 import React from 'react'
 
-const Card = () => {
+const Card = ({ props }) => {
+  const { name, current_weight, max_weight, min_weight, rate, sets } = props
+
   return (
     <div className="flex justify-center p-5">
       <div className="rounded-xl shadow-lg bg-white max-w-sm">
+        <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full text-center">
+          {name}
+        </h5>
+
         <a href="#!">
           <img
             className="rounded-t-lg"
@@ -18,16 +24,13 @@ const Card = () => {
             </h5>
           </div>
         </div>
-        <div className="flex flex-row justify-between pt-2 pr-4 pl-4 pb-4">
+        <div className="flex flex-wrap flex-row justify-between pt-2 pr-4 pl-4 pb-4">
           <div>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
               Max
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${50 * 0.02 + 50} Kg`}
-            </h5>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${50} Kg`}
+              {`${(max_weight * rate) / 100 + max_weight} Kg`}
             </h5>
           </div>
           <div>
@@ -35,10 +38,7 @@ const Card = () => {
               Min
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${35 * 0.02 + 35} Kg`}
-            </h5>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${35} Kg`}
+              {`${(min_weight * rate) / 100 + min_weight} Kg`}
             </h5>
           </div>
           <div>
@@ -46,10 +46,7 @@ const Card = () => {
               Current
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${45 * 0.02 + 45} Kg`}
-            </h5>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${45} Kg`}
+              {`${(current_weight * rate) / 100 + current_weight} Kg`}
             </h5>
           </div>
           <div>
@@ -57,7 +54,25 @@ const Card = () => {
               Rate/Sem
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${2}%`}
+              {`${rate}%`}
+            </h5>
+          </div>
+        </div>
+        <div className="flex flex-wrap flex-row justify-around p-2 pr-4 pl-4 pb-4">
+          <div>
+            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
+              1RM
+            </h5>
+            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
+              {`${rate}%`}
+            </h5>
+          </div>
+          <div>
+            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
+              Sets
+            </h5>
+            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
+              {`${sets} reps`}
             </h5>
           </div>
         </div>

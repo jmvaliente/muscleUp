@@ -1,7 +1,7 @@
 import React from 'react'
 const enhance = View => {
-  const Card = () => {
-    return <View />
+  const Card = ({ children }) => {
+    return <View props={children} />
   }
   return Card
 }
