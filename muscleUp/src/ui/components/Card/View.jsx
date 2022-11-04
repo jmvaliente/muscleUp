@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 const Card = children => {
   const { data } = children
   const { name, current_weight, max_weight, min_weight, rate, sets, rm1 } = data
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [key, setKey] = useState(0)
+
+  const handleClick = () => {
+    setIsPlaying(true)
+  }
   return (
     <div className="flex justify-center p-5">
       <div className="rounded-xl shadow-lg bg-white max-w-sm">
@@ -77,39 +84,20 @@ const Card = children => {
           </div>
         </div>
         <div className="flex flex-row justify-between">
-          <div className="p-4">
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              Time
-            </h5>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              1:00
-            </h5>
-          </div>
-          <div className="p-4">
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              Rest Time
-            </h5>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              1:00
-            </h5>
-          </div>
-          <div className="p-4">
-            <div className="">
-              <button
-                type="button"
-                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-              >
-                Start
-              </button>
-            </div>
-            <div className="pt-2">
-              <button
-                type="button"
-                className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
-              >
-                Stop
-              </button>
-            </div>
+          <div className="p-4" onClick={() => handleClick()}>
+            <CountdownCircleTimer
+              isPlaying={isPlaying}
+              duration={10}
+              colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+              colorsTime={[7, 5, 2, 0]}
+              key={key}
+              onComplete={() => {
+                setKey(prevKey => prevKey + 1)
+                setIsPlaying(false)
+              }}
+            >
+              {({ remainingTime }) => remainingTime}
+            </CountdownCircleTimer>
           </div>
         </div>
       </div>
