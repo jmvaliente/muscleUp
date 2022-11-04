@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Card = ({ props }) => {
-  const { name, current_weight, max_weight, min_weight, rate, sets } = props
-
+const Card = children => {
+  const { data } = children
+  const { name, current_weight, max_weight, min_weight, rate, sets, rm1 } = data
   return (
     <div className="flex justify-center p-5">
       <div className="rounded-xl shadow-lg bg-white max-w-sm">
@@ -64,7 +64,7 @@ const Card = ({ props }) => {
               1RM
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${rate}%`}
+              {`${rm1} Kg`}
             </h5>
           </div>
           <div>
