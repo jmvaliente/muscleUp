@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import Timer from './Timer'
 
 import './styles.css'
 
@@ -7,26 +7,15 @@ const Card = children => {
   const { data, routine } = children
   const { name, restTime, reps, sets } = data
   const { maxWeight, minWeight, weightForSets } = routine
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [key, setKey] = useState(0)
   const [currentSet, setCurrentSet] = useState(0)
 
-  const handleClick = () => {
-    setIsPlaying(!isPlaying)
+  const propsTimer = {
+    currentSet,
+    setCurrentSet,
+    weightForSets,
+    restTime,
   }
-  const renderTime = ({ remainingTime }) => {
-    if (remainingTime === 0) {
-      return <div className="timer">Finish</div>
-    }
-    return (
-      <div className="timer">
-        <div className="text">Push</div>
-        <div className="text">Rest Time</div>
-        <div className="value">{remainingTime}</div>
-        <div className="text">seconds</div>
-      </div>
-    )
-  }
+
   return (
     <div className="flex justify-center p-5">
       <div className="rounded-xl shadow-lg bg-white max-w-sm">
@@ -77,24 +66,7 @@ const Card = children => {
           </div>
         </div>
         <div className="flex flex-row justify-around p-6">
-          <div onClick={() => handleClick()}>
-            <CountdownCircleTimer
-              isPlaying={isPlaying}
-              duration={restTime}
-              colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-              colorsTime={[restTime, restTime / 33, restTime / 66, 0]}
-              key={key}
-              onComplete={() => {
-                if (weightForSets[currentSet].set > 1) {
-                  setCurrentSet(prevSet => prevSet + 1)
-                  setKey(prevKey => prevKey + 1)
-                }
-                setIsPlaying(false)
-              }}
-            >
-              {renderTime}
-            </CountdownCircleTimer>
-          </div>
+          <Timer props={propsTimer} />
           <div className="flex flex-col justify-center p-6 flex-wrap">
             <div>
               <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
