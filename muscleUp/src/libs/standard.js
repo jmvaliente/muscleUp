@@ -1,16 +1,30 @@
 export const calculate1Rm = (weight, reps) =>
   weight / ((100 - reps * 2.5) / 100) // 2.5 incremental improvement?
 
-export const calculateKgForReps = (rm1, reps) =>
-  ((100 - reps * 2.5) / 100) * rm1
+export const calculateKgForReps = (rm1, reps, rate, stepsCompleted) => {
+  const totalRate = rate * stepsCompleted
+  const total = ((100 - reps * 2.5) / 100) * rm1
+
+  if (stepsCompleted) {
+    return total + totalRate
+  } else {
+    return total
+  }
+}
 
 const calculatePercentage = (rm1, weight) => (weight * 100) / rm1
 
 const calculateWeightForPercentage = (maxWeight, percentage) =>
   maxWeight - (percentage * maxWeight) / 100
 
-export const calculateRateForSteps = (rm1, sets, reps) => {
-  const maxWeightForReps = calculateKgForReps(rm1, reps)
+export const calculateRateForSteps = (
+  rm1,
+  sets,
+  reps,
+  rate,
+  stepsCompleted,
+) => {
+  const maxWeightForReps = calculateKgForReps(rm1, reps, rate, stepsCompleted)
   const minWeightForReps = calculateWeightForPercentage(
     maxWeightForReps,
     (sets - 1) * 10,
