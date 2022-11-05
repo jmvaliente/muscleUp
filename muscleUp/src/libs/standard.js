@@ -1,5 +1,5 @@
 export const calculate1Rm = (weight, reps) =>
-  weight / ((100 - reps * 2.5) / 100)
+  weight / ((100 - reps * 2.5) / 100) // 2.5 incremental improvement?
 
 export const calculateKgForReps = (rm1, reps) =>
   ((100 - reps * 2.5) / 100) * rm1
@@ -9,24 +9,29 @@ const calculatePercentage = (rm1, weight) => (weight * 100) / rm1
 const calculateWeightForPercentage = (maxWeight, percentage) =>
   maxWeight - (percentage * maxWeight) / 100
 
-export const calculateRateForSteps = (rm1, steps, reps) => {
+export const calculateRateForSteps = (rm1, sets, reps) => {
   const maxWeightForReps = calculateKgForReps(rm1, reps)
   const minWeightForReps = calculateWeightForPercentage(
     maxWeightForReps,
-    (steps - 1) * 10,
+    (sets - 1) * 10,
   )
-  const weightForSteps = []
+  const weightForSets = []
 
-  for (let i = 0; i < steps; i++) {
-    const step = i
-    const weight = calculateWeightForPercentage(maxWeightForReps, step * 10)
-    const performance = calculatePercentage(maxWeightForReps, weight)
-    weightForSteps.unshift({ weight, performance, step: step + 1 })
+  for (let i = 0; i < sets; i++) {
+    const set = i
+    const weight = calculateWeightForPercentage(
+      maxWeightForReps,
+      set * reps,
+    ).toFixed(1)
+    const performance = Math.round(
+      calculatePercentage(maxWeightForReps, weight),
+    )
+    weightForSets.unshift({ weight, performance, set: set + 1 })
   }
 
   return {
-    maxWeight: maxWeightForReps,
-    minWeight: minWeightForReps,
-    weightForSteps,
+    maxWeight: maxWeightForReps.toFixed(1),
+    minWeight: minWeightForReps.toFixed(1),
+    weightForSets,
   }
 }
