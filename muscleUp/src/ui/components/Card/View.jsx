@@ -1,14 +1,32 @@
 import React, { useState } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
+import './styles.css'
+
 const Card = children => {
-  const { data } = children
-  const { name, current_weight, max_weight, min_weight, rate, sets, rm1 } = data
-  const [isPlaying, setIsPlaying] = useState(true)
+  const { data, routine } = children
+  const { name, restTime, reps, sets } = data
+  const { maxWeight, minWeight, weightForSets } = routine
+  const [isPlaying, setIsPlaying] = useState(false)
   const [key, setKey] = useState(0)
+  const [currentSet, setCurrentSet] = useState(0)
 
   const handleClick = () => {
-    setIsPlaying(true)
+    setIsPlaying(!isPlaying)
+  }
+  const renderTime = ({ remainingTime }) => {
+    if (remainingTime === 0) {
+      //setTest(false)
+      return <div className="timer">Start...</div>
+    }
+    return (
+      <div className="timer">
+        <div className="text">Push</div>
+        <div className="text">Rest Time</div>
+        <div className="value">{remainingTime}</div>
+        <div className="text">seconds</div>
+      </div>
+    )
   }
   return (
     <div className="flex justify-center p-5">
@@ -24,20 +42,14 @@ const Card = children => {
             alt=""
           />
         </a>
-        <div>
-          <div className="pl-4">
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              Weight
-            </h5>
-          </div>
-        </div>
-        <div className="flex flex-wrap flex-row justify-between pt-2 pr-4 pl-4 pb-4">
+
+        <div className="flex flex-wrap flex-row justify-around pt-2 pr-4 pl-4 pb-4">
           <div>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
               Max
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${(max_weight * rate) / 100 + max_weight} Kg`}
+              {`${maxWeight} Kg`}
             </h5>
           </div>
           <div>
@@ -45,7 +57,7 @@ const Card = children => {
               Min
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${(min_weight * rate) / 100 + min_weight} Kg`}
+              {`${minWeight} Kg`}
             </h5>
           </div>
           <div>
@@ -53,51 +65,56 @@ const Card = children => {
               Current
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${(current_weight * rate) / 100 + current_weight} Kg`}
+              {`${weightForSets[currentSet].weight} Kg`}
             </h5>
           </div>
           <div>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              Rate/Sem
+              Reps
             </h5>
             <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${rate}%`}
+              {reps}
             </h5>
           </div>
         </div>
-        <div className="flex flex-wrap flex-row justify-around p-2 pr-4 pl-4 pb-4">
-          <div>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              1RM
-            </h5>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${rm1} Kg`}
-            </h5>
-          </div>
-          <div>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              Sets
-            </h5>
-            <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
-              {`${sets} reps`}
-            </h5>
-          </div>
-        </div>
-        <div className="flex flex-row justify-between">
-          <div className="p-4" onClick={() => handleClick()}>
+        <div className="flex flex-row justify-around p-6">
+          <div onClick={() => handleClick()}>
             <CountdownCircleTimer
               isPlaying={isPlaying}
-              duration={10}
+              duration={restTime}
               colors={['#004777', '#F7B801', '#A30000', '#A30000']}
               colorsTime={[7, 5, 2, 0]}
               key={key}
               onComplete={() => {
-                setKey(prevKey => prevKey + 1)
+                if (weightForSets[currentSet].set > 1) {
+                  setCurrentSet(prevSet => prevSet + 1)
+                  setKey(prevKey => prevKey + 1)
+                }
                 setIsPlaying(false)
               }}
             >
-              {({ remainingTime }) => remainingTime}
+              {renderTime}
             </CountdownCircleTimer>
+          </div>
+          <div className="flex flex-col justify-center p-6 flex-wrap">
+            <div>
+              <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
+                Next Weight
+              </h5>
+              <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
+                {weightForSets[currentSet + 1]
+                  ? `${weightForSets[currentSet + 1].weight || 'Finish'} Kg`
+                  : 'Finish'}
+              </h5>
+            </div>
+            <div>
+              <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
+                Set
+              </h5>
+              <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
+                {`${weightForSets[currentSet].set}/${sets}`}
+              </h5>
+            </div>
           </div>
         </div>
       </div>
