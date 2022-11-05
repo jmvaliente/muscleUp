@@ -16,8 +16,7 @@ const Card = children => {
   }
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
-      //setTest(false)
-      return <div className="timer">Start...</div>
+      return <div className="timer">Finish</div>
     }
     return (
       <div className="timer">
@@ -83,7 +82,7 @@ const Card = children => {
               isPlaying={isPlaying}
               duration={restTime}
               colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-              colorsTime={[7, 5, 2, 0]}
+              colorsTime={[restTime, restTime / 33, restTime / 66, 0]}
               key={key}
               onComplete={() => {
                 if (weightForSets[currentSet].set > 1) {
