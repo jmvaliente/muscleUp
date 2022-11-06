@@ -4,17 +4,39 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import './styles.css'
 
 const Timer = ({ props }) => {
-  const { restTime, weightForSets, currentSet, setCurrentSet } = props
+  const {
+    restTime,
+    weightForSets,
+    currentSet,
+    setCurrentSet,
+    sets,
+    setVisible,
+    modalActivated,
+    setModalActivated,
+  } = props
   const [isPlaying, setIsPlaying] = useState(false)
   const [key, setKey] = useState(0)
 
   const handleClick = () => {
+    if (currentSet + 1 === sets && !modalActivated) {
+      setVisible(true)
+      setModalActivated(true)
+    }
     setIsPlaying(!isPlaying)
   }
 
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
-      return <div className="timer">Finish</div>
+      if (modalActivated) {
+        return <div className="timer">Finished</div>
+      } else {
+        return (
+          <div className="timer">
+            <div className="text">Push to</div>
+            <div className="text">finish the exercise</div>
+          </div>
+        )
+      }
     }
     return (
       <div className="timer">
@@ -29,7 +51,7 @@ const Timer = ({ props }) => {
     <div onClick={() => handleClick()}>
       <CountdownCircleTimer
         isPlaying={isPlaying}
-        duration={restTime}
+        duration={weightForSets[currentSet].set === 1 ? 0 : 10}
         colors={['#004777', '#F7B801', '#A30000', '#A30000']}
         colorsTime={[restTime, restTime / 33, restTime / 66, restTime / 99]}
         key={key}
@@ -53,6 +75,10 @@ Timer.propTypes = {
   weightForSets: PropTypes.arrayOf(PropTypes.object),
   currentSet: PropTypes.number,
   setCurrentSet: PropTypes.func,
+  sets: PropTypes.number,
+  setVisible: PropTypes.func,
+  setModalActivated: PropTypes.func,
+  modalActivated: PropTypes.bool,
 }
 
 export default Timer

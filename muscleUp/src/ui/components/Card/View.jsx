@@ -1,19 +1,26 @@
 import React, { useState } from 'react'
 import Timer from './Timer'
+import ModalComponent from '../../modal/Modal'
 
 import './styles.css'
 
 const Card = children => {
   const { data, routine } = children
-  const { name, restTime, reps, sets } = data
+  const { name, restTime, reps, sets, rate } = data
   const { maxWeight, minWeight, weightForSets } = routine
   const [currentSet, setCurrentSet] = useState(0)
+  const [visible, setVisible] = useState(false)
+  const [modalActivated, setModalActivated] = useState(false)
 
   const propsTimer = {
     currentSet,
     setCurrentSet,
     weightForSets,
     restTime,
+    sets,
+    setVisible,
+    modalActivated,
+    setModalActivated,
   }
 
   return (
@@ -85,6 +92,13 @@ const Card = children => {
               <h5 className="text-gray-900 text-lg font-medium mb-2 basis-full">
                 {`${weightForSets[currentSet].set}/${sets}`}
               </h5>
+            </div>
+            <div>
+              <ModalComponent
+                visible={visible}
+                setVisible={setVisible}
+                rate={rate}
+              />
             </div>
           </div>
         </div>
