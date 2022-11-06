@@ -28,7 +28,11 @@ const Timer = ({ props }) => {
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
       if (modalActivated) {
-        return <div className="timer">Finished</div>
+        return (
+          <div className="timer">
+            <div className="text">Finished</div>
+          </div>
+        )
       } else {
         return (
           <div className="timer">
@@ -51,7 +55,7 @@ const Timer = ({ props }) => {
     <div onClick={() => handleClick()}>
       <CountdownCircleTimer
         isPlaying={isPlaying}
-        duration={weightForSets[currentSet].set === 1 ? 0 : 10}
+        duration={weightForSets[currentSet].set === 1 ? 0 : restTime}
         colors={['#004777', '#F7B801', '#A30000', '#A30000']}
         colorsTime={[restTime, restTime / 33, restTime / 66, restTime / 99]}
         key={key}
