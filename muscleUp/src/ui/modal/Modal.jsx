@@ -30,7 +30,7 @@ const ModalComponent = props => {
 
 ModalComponent.propTypes = {
   props: PropTypes.object,
-  visible: PropTypes.bolean,
+  visible: PropTypes.bool,
   setVisible: PropTypes.func,
   rate: PropTypes.number,
 }
