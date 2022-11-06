@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 const ModalComponent = props => {
   const { visible, setVisible, rate } = props
   return (
-    <Modal show={visible} onClose={() => setVisible(false)}>
+    <Modal show={visible} position="center" onClose={() => setVisible(false)}>
       <Modal.Header>End of exercise</Modal.Header>
       <Modal.Body>
         <div className="space-y-6">
