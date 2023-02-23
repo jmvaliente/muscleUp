@@ -7,10 +7,11 @@ const useFetchData = () => {
   const [error, setError] = useState({})
 
   useEffect(() => {
+    setLoading(true)
     supabase.auth
       .getUser()
       .then(currentUser => {
-        setLoading(true)
+        setLoading(false)
         setData(currentUser)
       })
       .catch(responseError => setError(responseError))
