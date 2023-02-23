@@ -1,5 +1,30 @@
+export class Exercise {
+  constructor(rm, repsRm, stepsCompleted, rate, reps) {
+    this.rm = rm
+    this.repsRm = repsRm
+    this.stepsCompleted = stepsCompleted
+    this.rate = rate
+    this.reps = reps
+  }
+
+  calculate1Rm() {
+    return Math.round(this.rm / ((100 - this.repsRm * 2.5) / 100))
+  }
+
+  calculateKgForReps() {
+    const rm = this.calculate1Rm()
+    const totalRate = this.rate * this.stepsCompleted
+    const total = ((100 - this.reps * 2.5) / 100) * rm
+    if (this.stepsCompleted) {
+      return total + totalRate
+    } else {
+      return total
+    }
+  }
+}
+
 export const calculate1Rm = (weight, reps) =>
-  weight / ((100 - reps * 2.5) / 100) // 2.5 incremental improvement?
+  Math.round(weight / ((100 - reps * 2.5) / 100))
 
 export const calculateKgForReps = (rm1, reps, rate, stepsCompleted) => {
   const totalRate = rate * stepsCompleted
