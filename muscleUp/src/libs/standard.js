@@ -1,10 +1,11 @@
 export class Exercise {
-  constructor(rm, repsRm, stepsCompleted, rate, reps) {
+  constructor(rm, repsRm, stepsCompleted, rate, reps, sets) {
     this.rm = rm
     this.repsRm = repsRm
     this.stepsCompleted = stepsCompleted
     this.rate = rate
     this.reps = reps
+    this.sets = sets
   }
 
   calculate1Rm() {
@@ -15,25 +16,29 @@ export class Exercise {
     const rm = this.calculate1Rm()
     const totalRate = this.rate * this.stepsCompleted
     const total = ((100 - this.reps * 2.5) / 100) * rm
+    const totalRouned = Math.round(total * 10) / 10
     if (this.stepsCompleted) {
-      return total + totalRate
+      return totalRouned + totalRate
     } else {
-      return total
+      return totalRouned
     }
   }
-}
 
-export const calculate1Rm = (weight, reps) =>
-  Math.round(weight / ((100 - reps * 2.5) / 100))
+  calculateWeightForPercentage(weight, percentage) {
+    const result = weight - (percentage * weight) / 100
+    return Number(result.toFixed(1))
+  }
 
-export const calculateKgForReps = (rm1, reps, rate, stepsCompleted) => {
-  const totalRate = rate * stepsCompleted
-  const total = ((100 - reps * 2.5) / 100) * rm1
+  calculatePercentage(rm, weight) {
+    return (weight * 100) / rm
+  }
 
-  if (stepsCompleted) {
-    return total + totalRate
-  } else {
-    return total
+  calculateMinWeightForReps() {
+    const result = this.calculateWeightForPercentage(
+      this.calculateKgForReps(),
+      (this.sets - 1) * 10,
+    )
+    return Number(result.toFixed(1))
   }
 }
 
