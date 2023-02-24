@@ -42,22 +42,24 @@ export class Exercise {
   }
 }
 
-export class Sets extends Exercise {
+export class Sets {
   constructor(rm, repsRm, stepsCompleted, rate, reps, sets) {
-    super(rm, repsRm, stepsCompleted, rate, reps, sets)
+    this.exercise = new Exercise(rm, repsRm, stepsCompleted, rate, reps, sets)
   }
 
   weightForSets() {
-    const maxWeightForReps = this.calculateKgForReps()
+    const maxWeightForReps = this.exercise.calculateKgForReps()
     const weightForSets = []
-    for (let i = 0; i < this.sets; i++) {
+    for (let i = 0; i < this.exercise.sets; i++) {
       const set = i
-      const weight = this.calculateWeightForPercentage(
-        maxWeightForReps,
-        set * this.reps,
-      ).toFixed(1)
+      const weight = this.exercise
+        .calculateWeightForPercentage(
+          maxWeightForReps,
+          set * this.exercise.reps,
+        )
+        .toFixed(1)
       const performance = Math.round(
-        this.calculatePercentage(maxWeightForReps, weight),
+        this.exercise.calculatePercentage(maxWeightForReps, weight),
       )
       weightForSets.unshift({ weight, performance, set: set + 1 })
     }
