@@ -42,40 +42,25 @@ export class Exercise {
   }
 }
 
-const calculatePercentage = (rm1, weight) => (weight * 100) / rm1
-
-const calculateWeightForPercentage = (maxWeight, percentage) =>
-  maxWeight - (percentage * maxWeight) / 100
-
-export const calculateRateForSteps = (
-  rm1,
-  sets,
-  reps,
-  rate,
-  stepsCompleted,
-) => {
-  const maxWeightForReps = calculateKgForReps(rm1, reps, rate, stepsCompleted)
-  const minWeightForReps = calculateWeightForPercentage(
-    maxWeightForReps,
-    (sets - 1) * 10,
-  )
-  const weightForSets = []
-
-  for (let i = 0; i < sets; i++) {
-    const set = i
-    const weight = calculateWeightForPercentage(
-      maxWeightForReps,
-      set * reps,
-    ).toFixed(1)
-    const performance = Math.round(
-      calculatePercentage(maxWeightForReps, weight),
-    )
-    weightForSets.unshift({ weight, performance, set: set + 1 })
+export class Sets extends Exercise {
+  constructor(rm, repsRm, stepsCompleted, rate, reps, sets) {
+    super(rm, repsRm, stepsCompleted, rate, reps, sets)
   }
 
-  return {
-    maxWeight: maxWeightForReps.toFixed(1),
-    minWeight: minWeightForReps.toFixed(1),
-    weightForSets,
+  weightForSets() {
+    const maxWeightForReps = this.calculateKgForReps()
+    const weightForSets = []
+    for (let i = 0; i < this.sets; i++) {
+      const set = i
+      const weight = this.calculateWeightForPercentage(
+        maxWeightForReps,
+        set * this.reps,
+      ).toFixed(1)
+      const performance = Math.round(
+        this.calculatePercentage(maxWeightForReps, weight),
+      )
+      weightForSets.unshift({ weight, performance, set: set + 1 })
+    }
+    return weightForSets
   }
 }
