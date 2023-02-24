@@ -1,11 +1,11 @@
 export class Exercise {
-  constructor(rm, repsRm, stepsCompleted, rate, reps, sets) {
-    this.rm = rm
-    this.repsRm = repsRm
-    this.stepsCompleted = stepsCompleted
-    this.rate = rate
-    this.reps = reps
-    this.sets = sets
+  constructor(data) {
+    this.rm = data.rm1
+    this.repsRm = data.repsRm1
+    this.stepsCompleted = data.stepsCompleted
+    this.rate = data.rate
+    this.reps = data.reps
+    this.sets = data.sets
   }
 
   calculate1Rm() {
@@ -43,8 +43,8 @@ export class Exercise {
 }
 
 export class Sets {
-  constructor(rm, repsRm, stepsCompleted, rate, reps, sets) {
-    this.exercise = new Exercise(rm, repsRm, stepsCompleted, rate, reps, sets)
+  constructor(data) {
+    this.exercise = new Exercise(data)
   }
 
   weightForSets() {
