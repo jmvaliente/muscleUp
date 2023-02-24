@@ -32,7 +32,6 @@ describe('Kilograms per sets', () => {
     const exercise = new Exercise(50, 5, 0, 3, 10, 4)
     const maxWeight = exercise.calculateKgForReps()
     const minWeight = exercise.calculateMinWeightForReps()
-    console.log(maxWeight)
     expect(maxWeight).toBe(42.8)
     expect(minWeight).toBe(30)
   })
